@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Yoga Profile Input | Yoga Planner</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2b5876;
+      --secondary-color: #4e4376;
+      --accent-color: #667eea;
+      --light-bg: #f8fafc;
+      --white: #fff;
+      --text-color: #444;
+      --light-text: #666;
+    }
+    
+    body { 
+      font-family: Montserrat, sans-serif; 
+      background: linear-gradient(120deg, #f3e7e9 0%, #e3eeff 100%); 
+      margin: 0; 
+      padding: 0; 
+      color: #444;
+      line-height: 1.6;
+    }
+    
+    /* === Sidebar Styling === */
+    .sidebar-yoga {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100vh;
+      background: linear-gradient(120deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1000;
+      padding-top: 30px;
+      box-shadow: 2px 0 8px rgba(50,50,93,0.11);
+      transition: transform 0.3s ease;
+    }
+    
+    .sidebar-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .profile-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--white);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      margin-bottom: 10px;
+    }
+    
+    .profile-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .sidebar-yoga nav {
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    .sidebar-yoga nav a {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 15px 30px;
+      border-left: 4px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .sidebar-yoga nav a:hover,
+    .sidebar-yoga nav a.active {
+      background: rgba(255,255,255,0.1);
+      border-left-color: var(--accent-color);
+    }
+    
+    .sidebar-yoga nav a i {
+      font-size: 1.2rem;
+    }
+
+    /* Main content container to prevent overlap */
+    .main-content-container {
+      margin-left: 250px; /* Same as sidebar width */
+      transition: margin-left 0.3s ease;
+      min-height: 100vh;
+      padding: 40px;
+    }
+    
+    .container { 
+      max-width: 520px; 
+      margin: 0 auto;
+      background: #fff; 
+      box-shadow: 0 4px 20px rgba(50,50,93,0.15); 
+      border-radius: 16px; 
+      padding: 40px 35px; 
+      text-align: center;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    h2 { 
+      color: #2b5876; 
+      margin-bottom: 24px; 
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    
+    form { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 20px;
+    }
+
+    .form-section {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+      text-align: left;
+      border: 1px solid #e2e8f0;
+      transition: transform 0.2s ease;
+    }
+
+    .form-section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #2b5876;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 500;
+      color: #374151;
+      font-size: 0.9rem;
+    }
+    
+    input, select, textarea { 
+      padding: 12px 14px; 
+      border-radius: 8px; 
+      border: 2px solid #e2e8f0; 
+      font-size: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      background: white;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+      font-family: inherit;
+    }
+    
+    button { 
+      background: linear-gradient(120deg,#2b5876 0%,#4e4376 100%); 
+      color: #fff; 
+      border: none; 
+      border-radius: 10px; 
+      padding: 14px 0; 
+      font-size: 1.1em; 
+      font-weight: 700; 
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 16px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(43, 88, 118, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .error { 
+      color: #dc3545; 
+      margin-top: 12px;
+      padding: 12px;
+      background: #f8d7da;
+      border-radius: 8px;
+      border: 1px solid #f5c6cb;
+      font-size: 0.9rem;
+    }
+    
+    .success { 
+      color: #155724; 
+      margin-top: 12px;
+      padding: 12px;
+      background: #d4edda;
+      border-radius: 8px;
+      border: 1px solid #c3e6cb;
+      font-size: 0.9rem;
+    }
+    
+    .btn-secondary { 
+      background: linear-gradient(120deg,#4e4376 0%,#2b5876 100%);
+      margin-top: 12px;
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: white;
+      border-radius: 8px;
+      border: 2px solid #e2e8f0;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .checkbox-item:hover {
+      border-color: #cbd5e0;
+      background: #f7fafc;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      margin: 0;
+      width: 18px;
+      height: 18px;
+    }
+
+    .checkbox-item input[type="checkbox"]:checked + label {
+      color: #2b5876;
+      font-weight: 600;
+    }
+
+    .checkbox-item.checked {
+      border-color: #667eea;
+      background: rgba(102, 126, 234, 0.05);
+    }
+
+    .radio-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: white;
+      border-radius: 8px;
+      border: 2px solid #e2e8f0;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .radio-item:hover {
+      border-color: #cbd5e0;
+      background: #f7fafc;
+    }
+
+    .radio-item.checked {
+      border-color: #667eea;
+      background: rgba(102, 126, 234, 0.05);
+      color: #2b5876;
+      font-weight: 600;
+    }
+
+    .radio-item input[type="radio"] {
+      margin: 0;
+    }
+
+    .progress-indicator {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .step-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    .step-dot.active {
+      background: #667eea;
+      transform: scale(1.2);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .sidebar-yoga {
+        transform: translateX(-100%);
+        width: 100%;
+        padding-top: 20px;
+      }
+      .main-content-container {
+        margin-left: 0;
+      }
+      .container {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 90%;
+        padding: 30px 20px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .checkbox-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .radio-group {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar-yoga">
+    <div class="sidebar-header">
+      <img src="https://img.icons8.com/color/100/yoga-pose.png" alt="Profile Image" class="profile-img">
+      <h3 class="profile-name">Yoga User</h3>
+    </div>
+    <nav>
+      <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+      <a href="input.html"><i class="fas fa-user-edit"></i> Input Details</a>
+      <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+      <a href="plan.html"><i class="fas fa-calendar-alt"></i> Yoga Plan</a>
+      <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+      
+      <a href="login.html"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+    </nav>
+  </aside>
+
+  <div class="main-content-container">
+    <div class="container">
+      <div class="progress-indicator">
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+      </div>
+      
+      <h2>Create Your Yoga Profile</h2>
+      <p class="subtitle">Help us personalize your yoga journey with some basic information</p>
+      
+      <form id="profileForm">
+        <div class="form-section">
+          <div class="section-title">🧘‍♀️ Personal Information</div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="age">Age *</label>
+              <input type="number" id="age" min="1" max="120" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="gender">Gender *</label>
+              <select id="gender" required>
+                <option value="">Select Gender</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="non-binary">Non-binary</option>
+                <option value="prefer-not-to-say">Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="height">Height (cm)</label>
+              <input type="number" id="height" min="100" max="250" placeholder="e.g. 170">
+            </div>
+            
+            <div class="form-group">
+              <label for="weight">Weight (kg)</label>
+              <input type="number" id="weight" min="30" max="300" placeholder="e.g. 65">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-title">🏋️‍♀️ Fitness & Experience</div>
+          
+          <div class="form-group">
+            <label>Current Fitness Level *</label>
+            <div class="radio-group">
+              <div class="radio-item">
+                <input type="radio" id="fitness_beginner" name="fitness_level" value="beginner" required>
+                <label for="fitness_beginner">Beginner</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="fitness_low" name="fitness_level" value="low" required>
+                <label for="fitness_low">Low</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="fitness_moderate" name="fitness_level" value="moderate" required>
+                <label for="fitness_moderate">Moderate</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="fitness_high" name="fitness_level" value="high" required>
+                <label for="fitness_high">High</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="fitness_athlete" name="fitness_level" value="athlete" required>
+                <label for="fitness_athlete">Athlete</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="yoga_experience">Yoga Experience *</label>
+            <select id="yoga_experience" required>
+              <option value="">Select Experience Level</option>
+              <option value="Never tried yoga">Never tried yoga</option>
+              <option value="Complete beginner (0-3 months)">Complete beginner (0-3 months)</option>
+              <option value="Some experience (3-12 months)">Some experience (3-12 months)</option>
+              <option value="Regular practice (1-3 years)">Regular practice (1-3 years)</option>
+              <option value="Experienced (3+ years)">Experienced (3+ years)</option>
+              <option value="Advanced practitioner">Advanced practitioner</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-title">🎯 Your Goals</div>
+          <label>What do you want to achieve with yoga? (Select all that apply) *</label>
+          
+          <div class="checkbox-grid">
+            <div class="checkbox-item">
+              <input type="checkbox" id="goal_flexibility" name="goals" value="flexibility">
+              <label for="goal_flexibility">Improve Flexibility</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="goal_strength" name="goals" value="strength">
+              <label for="goal_strength">Build Strength</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="goal_stress" name="goals" value="stress_relief">
+              <label for="goal_stress">Stress Relief</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="goal_weight" name="goals" value="weight_loss">
+              <label for="goal_weight">Weight Management</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="goal_balance" name="goals" value="balance">
+              <label for="goal_balance">Better Balance</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="goal_pain" name="goals" value="pain_relief">
+              <label for="goal_pain">Pain Relief</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="goal_mindfulness" name="goals" value="mindfulness">
+              <label for="goal_mindfulness">Mindfulness</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="goal_sleep" name="goals" value="better_sleep">
+              <label for="goal_sleep">Better Sleep</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-title">🩺 Health Information</div>
+          
+          <div class="form-group">
+            <label>Do you have any of these medical conditions? (Select all that apply)</label>
+            <div class="checkbox-grid">
+              <div class="checkbox-item">
+                <input type="checkbox" id="condition_diabetes" name="conditions" value="diabetes">
+                <label for="condition_diabetes">Diabetes</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="condition_hypertension" name="conditions" value="hypertension">
+                <label for="condition_hypertension">High Blood Pressure</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="condition_heart" name="conditions" value="heart_disease">
+                <label for="condition_heart">Heart Disease</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="condition_arthritis" name="conditions" value="arthritis">
+                <label for="condition_arthritis">Arthritis</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="condition_osteoporosis" name="conditions" value="osteoporosis">
+                <label for="condition_osteoporosis">Osteoporosis</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="condition_asthma" name="conditions" value="asthma">
+                <label for="condition_asthma">Asthma</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="condition_anxiety" name="conditions" value="anxiety">
+                <label for="condition_anxiety">Anxiety</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="condition_depression" name="conditions" value="depression">
+                <label for="condition_depression">Depression</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="condition_none" name="conditions" value="none">
+                <label for="condition_none">None of the above</label>
+              </div>
+            </div>
+            
+            <input type="text" id="customCondition" placeholder="Other condition not listed above (type 'nil' if none)" style="margin-top: 12px;">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="injuries">Recent Injuries or Physical Limitations</label>
+            <textarea id="injuries" placeholder="Please describe any recent injuries, surgeries, or physical limitations that might affect your yoga practice... (type 'nil' if none)"></textarea>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="medications">Current Medications</label>
+            <input type="text" id="medications" placeholder="List any medications that may affect your practice (type 'nil' if none)">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="additional_notes">Additional Notes</label>
+            <textarea id="additional_notes" placeholder="Anything else you'd like us to know about your health, preferences, or yoga goals... (type 'nil' if none)"></textarea>
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn">Save Profile & Continue</button>
+      </form>
+      
+      <button id="gotoPlanBtn" class="btn btn-secondary">Skip to Plan Page</button>
+      
+      <div class="error" id="error" style="display: none;"></div>
+      <div class="success" id="success" style="display: none;"></div>
+    </div>
+  </div>
+  
+  <script>
+    function showError(message) {
+      const errorDiv = document.getElementById('error');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+      console.error(message);
+    }
+
+    function showSuccess(message) {
+      const successDiv = document.getElementById('success');
+      successDiv.textContent = message;
+      successDiv.style.display = 'block';
+      console.log(message);
+    }
+
+    function hideMessages() {
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('success').style.display = 'none';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Sidebar active link highlight
+      document.querySelectorAll('.sidebar-yoga nav a').forEach(link => {
+        if (window.location.pathname.includes(link.getAttribute('href'))) {
+          link.classList.add('active');
+        }
+      });
+
+      // Checkbox and radio interaction handlers
+      document.querySelectorAll('.checkbox-item').forEach(item => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        item.addEventListener('click', (e) => {
+          if (e.target.type !== 'checkbox') {
+            checkbox.checked = !checkbox.checked;
+          }
+          item.classList.toggle('checked', checkbox.checked);
+        });
+      });
+
+      document.querySelectorAll('.radio-item').forEach(item => {
+        const radio = item.querySelector('input[type="radio"]');
+        item.addEventListener('click', (e) => {
+          if (e.target.type !== 'radio') {
+            radio.checked = true;
+          }
+          const groupName = radio.name;
+          document.querySelectorAll(`input[name="${groupName}"]`).forEach(r => {
+            r.closest('.radio-item').classList.remove('checked');
+          });
+          if (radio.checked) {
+            item.classList.add('checked');
+          }
+        });
+      });
+
+      // Form submission handler
+      document.getElementById('profileForm').addEventListener('submit', handleFormSubmit);
+      
+      // Skip button handler
+      document.getElementById('gotoPlanBtn').addEventListener('click', function() {
+        window.location.href = "plan.html";
+      });
+    });
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      hideMessages();
+
+      const submitBtn = document.getElementById('submitBtn');
+      const form = document.getElementById('profileForm');
+      
+      submitBtn.textContent = 'Saving...';
+      submitBtn.disabled = true;
+      form.classList.add('loading');
+
+      const formData = collectFormData();
+      const validation = validateFormData(formData);
+      
+      if (!validation.isValid) {
+        showError(validation.message);
+        submitBtn.textContent = 'Save Profile & Continue';
+        submitBtn.disabled = false;
+        form.classList.remove('loading');
+        return;
+      }
+      
+      saveToSessionStorage(formData);
+      
+      showSuccess("Profile saved successfully! Redirecting to your yoga plan...");
+      
+      setTimeout(() => {
+        window.location.href = "plan.html";
+      }, 1000);
+    }
+
+    function collectFormData() {
+      // Personal Information
+      const age = parseInt(document.getElementById('age').value, 10);
+      const gender = document.getElementById('gender').value;
+      const height = document.getElementById('height').value;
+      const weight = document.getElementById('weight').value;
+      
+      // Fitness & Experience
+      const fitnessLevelEl = document.querySelector('input[name="fitness_level"]:checked');
+      const fitnessLevel = fitnessLevelEl ? fitnessLevelEl.value : '';
+      const yogaExperience = document.getElementById('yoga_experience').value;
+      
+      // Goals
+      const checkedGoals = Array.from(document.querySelectorAll('input[name="goals"]:checked'))
+        .map(cb => cb.value);
+      
+      // Medical Conditions
+      const checkedConditions = Array.from(document.querySelectorAll('input[name="conditions"]:checked'))
+        .map(cb => cb.value);
+      
+      const customConditionRaw = document.getElementById('customCondition').value.trim();
+      const customCondition = (customConditionRaw.toLowerCase() === 'nil') ? '' : customConditionRaw;
+      if (customCondition) checkedConditions.push(customCondition);
+      
+      // Health & Lifestyle
+      const injuriesRaw = document.getElementById('injuries').value.trim();
+      const additionalNotesRaw = document.getElementById('additional_notes').value.trim();
+      const medicationsRaw = document.getElementById('medications').value.trim();
+      
+      const injuries = (injuriesRaw.toLowerCase() === 'nil') ? '' : injuriesRaw;
+      const additionalNotes = (additionalNotesRaw.toLowerCase() === 'nil') ? '' : additionalNotesRaw;
+      const medications = (medicationsRaw.toLowerCase() === 'nil') ? '' : medicationsRaw;
+
+      return {
+        age,
+        gender,
+        height: height || null,
+        weight: weight || null,
+        fitness_level: fitnessLevel,
+        yoga_experience: yogaExperience,
+        goals: checkedGoals,
+        conditions: checkedConditions,
+        injuries: injuries || null,
+        medications: medications || null,
+        additional_notes: additionalNotes || null,
+        custom_condition_raw: customConditionRaw,
+        injuries_raw: injuriesRaw,
+        medications_raw: medicationsRaw,
+        additional_notes_raw: additionalNotesRaw
+      };
+    }
+
+    function validateFormData(data) {
+      if (!data.age || data.age < 1 || data.age > 120) {
+        return { isValid: false, message: "Please enter a valid age between 1 and 120." };
+      }
+      if (!data.gender) {
+        return { isValid: false, message: "Please select your gender." };
+      }
+      if (!data.fitness_level) {
+        return { isValid: false, message: "Please select your fitness level." };
+      }
+      if (!data.yoga_experience) {
+        return { isValid: false, message: "Please select your yoga experience level." };
+      }
+      if (data.goals.length === 0) {
+        return { isValid: false, message: "Please select at least one goal." };
+      }
+      
+      if (!data.custom_condition_raw) {
+        return { isValid: false, message: "For 'Other condition', please type 'nil' if none." };
+      }
+      if (!data.medications_raw) {
+        return { isValid: false, message: "Please enter medications or type 'nil' if none." };
+      }
+      if (!data.injuries_raw) {
+        return { isValid: false, message: "Please describe injuries or type 'nil' if none." };
+      }
+      if (!data.additional_notes_raw) {
+        return { isValid: false, message: "Please add additional notes or type 'nil' if none." };
+      }
+
+      return { isValid: true };
+    }
+
+    function saveToSessionStorage(formData) {
+      const yogaProfile = {
+        age: formData.age,
+        gender: formData.gender,
+        height: formData.height,
+        weight: formData.weight,
+        fitness_level: formData.fitness_level,
+        yoga_experience: formData.yoga_experience,
+        goals: formData.goals,
+        conditions: formData.conditions,
+        injuries: formData.injuries,
+        medications: formData.medications,
+        additional_notes: formData.additional_notes,
+      };
+
+      try {
+        sessionStorage.setItem('yogaProfile', JSON.stringify(yogaProfile));
+        sessionStorage.setItem('profileJustSaved', 'true');
+        console.log('Saved to sessionStorage');
+      } catch (sessionError) {
+        console.warn('Could not save to sessionStorage:', sessionError);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Yoga Planner</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700&display=swap">
+  <style>
+    :root {
+      --primary-color: #1e40af;
+      --primary-dark: #1e3a8a;
+      --secondary-color: #3b82f6;
+      --surface-color: #ffffff;
+      --background-color: #f8fafc;
+      --text-primary: #1f2937;
+      --text-secondary: #6b7280;
+      --text-light: #9ca3af;
+      --border-color: #e5e7eb;
+      --error-color: #ef4444;
+      --success-color: #10b981;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--background-color) 0%, #e0f2fe 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      background: var(--surface-color);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    .login-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: var(--surface-color);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .login-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-header p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+
+    .login-form {
+      padding: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      font-family: inherit;
+      background: var(--surface-color);
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+    }
+
+    .forgot-password-link {
+      display: block;
+      text-align: right;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .forgot-password-link:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: var(--surface-color);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 0.875rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+
+    button[type="submit"]:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: var(--error-color);
+      padding: 0.875rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .success {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: var(--success-color);
+      padding: 0.875rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .signup-link {
+      margin-top: 2rem;
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .signup-link a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .signup-link a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    /* Loading state */
+    .loading {
+      position: relative;
+      pointer-events: none;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      margin: -8px 0 0 -8px;
+      border: 2px solid transparent;
+      border-top: 2px solid var(--surface-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading span {
+      opacity: 0;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      .login-container {
+        margin: 0.5rem;
+      }
+      
+      .login-header {
+        padding: 1.5rem;
+      }
+      
+      .login-form {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4NhiLKoiPMSZwvj2ouBjyHHe20WVQjng",
+      authDomain: "csproject-a332d.firebaseapp.com",
+      projectId: "csproject-a332d",
+      storageBucket: "csproject-a332d.firebasestorage.app",
+      messagingSenderId: "155004934642",
+      appId: "1:155004934642:web:30a34be7ed0e321769736b",
+      measurementId: "G-PN460MWXZV"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          window.location.href = "profile.html";
+        }
+      });
+
+      const loginForm = document.getElementById('loginForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const errorElement = document.getElementById('error');
+      const successElement = document.getElementById('success');
+
+      function showError(message) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        successElement.style.display = 'none';
+      }
+
+      function showSuccess(message) {
+        successElement.textContent = message;
+        successElement.style.display = 'block';
+        errorElement.style.display = 'none';
+      }
+
+      function hideMessages() {
+        errorElement.style.display = 'none';
+        successElement.style.display = 'none';
+      }
+
+      function setLoading(loading) {
+        if (loading) {
+          submitBtn.classList.add('loading');
+          submitBtn.disabled = true;
+        } else {
+          submitBtn.classList.remove('loading');
+          submitBtn.disabled = false;
+        }
+      }
+
+      loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        hideMessages();
+        
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        
+        if (!email || !password) {
+          showError('Please fill in all fields.');
+          return;
+        }
+
+        setLoading(true);
+
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          // Redirection handled by onAuthStateChanged
+        } catch (err) {
+          setLoading(false);
+          let message = 'Login failed. Please try again.';
+          
+          if (err.code === 'auth/invalid-email') {
+            message = 'Please enter a valid email address.';
+          } else if (err.code === 'auth/user-not-found') {
+            message = 'No account found with this email address.';
+          } else if (err.code === 'auth/wrong-password') {
+            message = 'Incorrect password. Please try again.';
+          } else if (err.code === 'auth/invalid-credential') {
+            message = 'Invalid email or password. Please check your credentials.';
+          }
+          
+          showError(message);
+        }
+      });
+
+      const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+      forgotPasswordLink.addEventListener('click', async function(e) {
+        e.preventDefault();
+        hideMessages();
+        
+        const email = document.getElementById('email').value.trim();
+
+        if (!email) {
+          showError('Please enter your email address first.');
+          return;
+        }
+
+        try {
+          await sendPasswordResetEmail(auth, email);
+          showSuccess('Password reset email sent. Please check your inbox.');
+        } catch (err) {
+          if (err.code === 'auth/user-not-found') {
+            showError('No account found with this email address.');
+          } else {
+            showError('Failed to send reset email. Please try again.');
+          }
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <h2>Welcome Back</h2>
+      <p>Sign in to continue your wellness journey</p>
+    </div>
+    
+    <div class="login-form">
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+        
+        <a href="#" id="forgotPasswordLink" class="forgot-password-link">Forgot Password?</a>
+        
+        <div class="form-group">
+          <button type="submit" id="submitBtn">
+            <span>Sign In</span>
+          </button>
+        </div>
+      </form>
+      
+      <div class="error" id="error"></div>
+      <div class="success" id="success"></div>
+      
+      <div class="signup-link">
+        Don't have an account? <a href="signup.html">Create Account</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

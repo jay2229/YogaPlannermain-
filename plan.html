@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Yoga Plan | Yoga Planner</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2b5876;
+      --secondary-color: #4e4376;
+      --accent-color: #667eea;
+      --light-bg: #f8fafc;
+      --white: #fff;
+      --text-color: #444;
+      --light-text: #666;
+    }
+
+    body { 
+      font-family: Montserrat, sans-serif; 
+      background: linear-gradient(120deg, #f3e7e9 0%, #e3eeff 100%); 
+      margin: 0; 
+      padding: 0; 
+      color: #444;
+      line-height: 1.6;
+    }
+    
+    /* Main content container to prevent overlap */
+    .main-content-container {
+      margin-left: 250px;
+      transition: margin-left 0.3s ease;
+      min-height: 100vh;
+      padding: 40px;
+    }
+    
+    .container { 
+      max-width: 900px; 
+      margin: 0 auto;
+      background: #fff; 
+      box-shadow: 0 4px 20px rgba(50,50,93,0.15); 
+      border-radius: 16px; 
+      padding: 40px 35px; 
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    h2 { 
+      color: #2b5876; 
+      margin-bottom: 24px; 
+      font-weight: 700;
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    .profile-summary {
+      background: linear-gradient(120deg, #f8fafc 0%, #e3eeff 100%);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .profile-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile-label {
+      font-weight: 600;
+      color: #2b5876;
+      font-size: 0.9rem;
+    }
+
+    .profile-value {
+      color: #374151;
+      margin-top: 4px;
+    }
+
+    .goals-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .goal-tag {
+      background: #667eea;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .plan-section {
+      margin-bottom: 30px;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2b5876;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .weekly-schedule {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .day-card {
+      background: white;
+      border-radius: 8px;
+      padding: 16px 12px;
+      text-align: center;
+      border: 2px solid #e2e8f0;
+      transition: all 0.2s ease;
+    }
+
+    .day-card.active {
+      border-color: #667eea;
+      background: rgba(102, 126, 234, 0.05);
+    }
+
+    .day-card.rest {
+      background: #f1f5f9;
+      border-color: #cbd5e0;
+    }
+
+    .day-name {
+      font-weight: 600;
+      color: #2b5876;
+      margin-bottom: 8px;
+    }
+
+    .day-focus {
+      font-size: 0.8rem;
+      color: #666;
+      text-transform: capitalize;
+    }
+
+    .day-duration {
+      font-size: 0.9rem;
+      color: #4e4376;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .session-details {
+      margin-top: 20px;
+    }
+
+    .session-day {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .session-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .session-day-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #2b5876;
+    }
+
+    .session-duration {
+      background: #667eea;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .phase {
+      margin-bottom: 24px;
+    }
+
+    .phase-header {
+      background: #f1f5f9;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .phase-name {
+      font-weight: 600;
+      color: #2b5876;
+      font-size: 1.1rem;
+    }
+
+    .phase-duration {
+      font-size: 0.9rem;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .exercises-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .exercise-card {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .exercise-card:hover {
+      border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+    }
+
+    .exercise-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .exercise-name {
+      font-weight: 700;
+      color: #2b5876;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    .exercise-sanskrit {
+      font-style: italic;
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 2px;
+    }
+
+    .exercise-duration {
+      background: #4e4376;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .exercise-type {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #4338ca;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .exercise-instructions {
+      margin-bottom: 12px;
+    }
+
+    .instructions-list {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0;
+    }
+
+    .instructions-list li {
+      padding: 4px 0;
+      padding-left: 20px;
+      position: relative;
+      font-size: 0.9rem;
+      color: #374151;
+    }
+
+    .instructions-list li:before {
+      content: "•";
+      color: #667eea;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    .exercise-benefits {
+      margin-top: 12px;
+      padding: 12px;
+      background: #f0f9ff;
+      border-radius: 8px;
+      border-left: 4px solid #0ea5e9;
+    }
+
+    .benefits-title {
+      font-weight: 600;
+      color: #0369a1;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .benefits-list {
+      font-size: 0.85rem;
+      color: #0c4a6e;
+      line-height: 1.4;
+    }
+
+    .modifications {
+      margin-top: 12px;
+      padding: 12px;
+      background: #fef3c7;
+      border-radius: 8px;
+      border-left: 4px solid #f59e0b;
+    }
+
+    .modifications-title {
+      font-weight: 600;
+      color: #92400e;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .modifications-text {
+      font-size: 0.85rem;
+      color: #78350f;
+    }
+
+    .progression-plan {
+      background: linear-gradient(120deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 2px solid #0ea5e9;
+    }
+
+    .progression-timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .progression-phase {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #bae6fd;
+    }
+
+    .phase-weeks {
+      font-weight: 700;
+      color: #0369a1;
+      font-size: 0.9rem;
+    }
+
+    .phase-focus {
+      font-weight: 600;
+      color: #2b5876;
+      margin: 8px 0;
+    }
+
+    .phase-goals {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .phase-goals li {
+      padding: 2px 0;
+      font-size: 0.85rem;
+      color: #374151;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .phase-goals li:before {
+      content: "✓";
+      color: #10b981;
+      position: absolute;
+      left: 0;
+    }
+
+    .safety-notes {
+      background: #fef2f2;
+      border-radius: 12px;
+      padding: 20px;
+      border: 2px solid #f87171;
+      margin-bottom: 24px;
+    }
+
+    .safety-title {
+      font-weight: 700;
+      color: #dc2626;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .safety-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .safety-list li {
+      padding: 4px 0;
+      font-size: 0.9rem;
+      color: #991b1b;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .safety-list li:before {
+      content: "⚠️";
+      position: absolute;
+      left: 0;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    button { 
+      background: linear-gradient(120deg,#2b5876 0%,#4e4376 100%); 
+      color: #fff; 
+      border: none; 
+      border-radius: 10px; 
+      padding: 14px 28px; 
+      font-size: 1rem; 
+      font-weight: 700; 
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 160px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(43, 88, 118, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(120deg, #6b7280 0%, #4b5563 100%);
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error { 
+      color: #dc3545; 
+      margin-top: 20px;
+      padding: 16px;
+      background: #f8d7da;
+      border-radius: 8px;
+      border: 1px solid #f5c6cb;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+    
+    .success { 
+      color: #155724; 
+      margin-top: 20px;
+      padding: 16px;
+      background: #d4edda;
+      border-radius: 8px;
+      border: 1px solid #c3e6cb;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .rest-day {
+      text-align: center;
+      padding: 40px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .rest-day h3 {
+      color: #2b5876;
+      margin-bottom: 16px;
+    }
+
+    .rest-activities {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .rest-activity {
+      background: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e0;
+      color: #4b5563;
+      font-weight: 500;
+    }
+
+    /* === Sidebar Styling === */
+    .sidebar-yoga {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100vh;
+      background: linear-gradient(120deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1000;
+      padding-top: 30px;
+      box-shadow: 2px 0 8px rgba(50,50,93,0.11);
+      transition: transform 0.3s ease;
+    }
+    
+    .sidebar-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .profile-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--white);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      margin-bottom: 10px;
+    }
+    
+    .profile-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .sidebar-yoga nav {
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    .sidebar-yoga nav a {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 15px 30px;
+      border-left: 4px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .sidebar-yoga nav a:hover,
+    .sidebar-yoga nav a.active {
+      background: rgba(255,255,255,0.1);
+      border-left-color: var(--accent-color);
+    }
+    
+    .sidebar-yoga nav a i {
+      font-size: 1.2rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .sidebar-yoga {
+        transform: translateX(-100%);
+        width: 100%;
+        padding-top: 20px;
+      }
+      .main-content-container {
+        margin-left: 0;
+        padding: 20px;
+      }
+      .container {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 95%;
+        padding: 30px 20px;
+      }
+
+      .exercises-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .weekly-schedule {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .progression-timeline {
+        grid-template-columns: 1fr;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      button {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+  <script type="module">
+    let userProfile = null;
+    let currentPlan = null;
+
+    // Render user profile summary
+    function renderProfileSummary(profile) {
+      if (!profile) return "";
+      
+      const goalsHtml = profile.goals ? profile.goals.map(goal => 
+        `<span class="goal-tag">${goal.replace('_', ' ')}</span>`
+      ).join('') : '';
+
+      const conditionsText = profile.conditions && profile.conditions.length > 0 
+        ? profile.conditions.join(', ') 
+        : 'None reported';
+
+      return `
+        <div class="profile-summary">
+          <div class="profile-grid">
+            <div class="profile-item">
+              <span class="profile-label">Age</span>
+              <span class="profile-value">${profile.age || 'Not specified'}</span>
+            </div>
+            <div class="profile-item">
+              <span class="profile-label">Gender</span>
+              <span class="profile-value">${profile.gender || 'Not specified'}</span>
+            </div>
+            <div class="profile-item">
+              <span class="profile-label">Fitness Level</span>
+              <span class="profile-value">${profile.fitness_level || 'Not specified'}</span>
+            </div>
+            <div class="profile-item">
+              <span class="profile-label">Yoga Experience</span>
+              <span class="profile-value">${profile.yoga_experience || 'Not specified'}</span>
+            </div>
+          </div>
+          <div class="profile-item">
+            <span class="profile-label">Your Goals</span>
+            <div class="goals-list">${goalsHtml}</div>
+          </div>
+          <div class="profile-item" style="margin-top: 12px;">
+            <span class="profile-label">Health Considerations</span>
+            <span class="profile-value">${conditionsText}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    // Render weekly schedule
+    function renderWeeklySchedule(schedule) {
+      if (!schedule) return "";
+      
+      return `
+        <div class="plan-section">
+          <div class="section-title">
+            📅 Weekly Schedule
+          </div>
+          <div class="weekly-schedule">
+            ${schedule.map(day => `
+              <div class="day-card ${day.active ? 'active' : 'rest'}">
+                <div class="day-name">${day.day}</div>
+                ${day.active ? `
+                  <div class="day-focus">${day.focus}</div>
+                  <div class="day-duration">${day.duration} min</div>
+                ` : `
+                  <div class="day-focus">Rest Day</div>
+                `}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Render daily sessions
+    function renderDailySessions(sessions, schedule) {
+      if (!sessions || !schedule) return "";
+      
+      const activeDays = schedule.filter(day => day.active);
+      
+      return `
+        <div class="plan-section">
+          <div class="section-title">
+            🧘‍♀️ Daily Sessions
+          </div>
+          <div class="session-details">
+            ${activeDays.map(day => {
+              const session = sessions[day.day];
+              if (!session || session.type === 'rest') {
+                return `
+                  <div class="rest-day">
+                    <h3>${day.day} - Rest Day</h3>
+                    <div class="rest-activities">
+                      <span class="rest-activity">Gentle Walking</span>
+                      <span class="rest-activity">Light Stretching</span>
+                      <span class="rest-activity">Meditation</span>
+                    </div>
+                  </div>
+                `;
+              }
+              
+              return `
+                <div class="session-day">
+                  <div class="session-header">
+                    <span class="session-day-name">${day.day}</span>
+                    <span class="session-duration">${session.totalDuration} minutes</span>
+                  </div>
+                  ${session.phases.map(phase => `
+                    <div class="phase">
+                      <div class="phase-header">
+                        <span class="phase-name">${phase.name}</span>
+                        <span class="phase-duration">${phase.duration} min</span>
+                      </div>
+                      <div class="exercises-grid">
+                        ${phase.exercises.map(exercise => renderExercise(exercise)).join('')}
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Render individual exercise
+    function renderExercise(exercise) {
+      const modifications = exercise.modifications ? Object.entries(exercise.modifications)
+        .map(([condition, mod]) => `<strong>${condition}:</strong> ${mod}`)
+        .join('<br>') : '';
+
+      return `
+        <div class="exercise-card">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">${exercise.name}</div>
+              ${exercise.sanskrit ? `<div class="exercise-sanskrit">${exercise.sanskrit}</div>` : ''}
+            </div>
+            <div class="exercise-duration">
+              ${exercise.recommendedDuration || exercise.duration?.max || 2} min
+            </div>
+          </div>
+          
+          <div class="exercise-type">${exercise.type}</div>
+          
+          <div class="exercise-instructions">
+            <ul class="instructions-list">
+              ${exercise.instructions.map(instruction => `<li>${instruction}</li>`).join('')}
+            </ul>
+            ${exercise.hold_time ? `<p><strong>Hold:</strong> ${exercise.hold_time}</p>` : ''}
+          </div>
+          
+          ${exercise.benefits ? `
+            <div class="exercise-benefits">
+              <div class="benefits-title">Benefits</div>
+              <div class="benefits-list">${exercise.benefits.join(' • ')}</div>
+            </div>
+          ` : ''}
+          
+          ${modifications ? `
+            <div class="modifications">
+              <div class="modifications-title">Modifications</div>
+              <div class="modifications-text">${modifications}</div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    // Render progression plan
+    function renderProgressionPlan(progression) {
+      if (!progression) return "";
+      
+      return `
+        <div class="progression-plan">
+          <div class="section-title">
+            📈 Your Progression Plan (${progression.timeline})
+          </div>
+          <div class="progression-timeline">
+            ${progression.phases.map(phase => `
+              <div class="progression-phase">
+                <div class="phase-weeks">Weeks ${phase.weeks}</div>
+                <div class="phase-focus">${phase.focus}</div>
+                <ul class="phase-goals">
+                  ${phase.goals.map(goal => `<li>${goal}</li>`).join('')}
+                </ul>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Render safety notes
+    function renderSafetyNotes(notes) {
+      if (!notes || notes.length === 0) return "";
+      
+      return `
+        <div class="safety-notes">
+          <div class="safety-title">
+            Safety Guidelines
+          </div>
+          <ul class="safety-list">
+            ${notes.map(note => `<li>${note}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    // Load user profile and plan
+    function loadUserData() {
+      // Load user profile from sessionStorage
+      try {
+        const profile = JSON.parse(sessionStorage.getItem('yogaProfile'));
+        if (profile) {
+          userProfile = profile;
+        }
+      } catch (e) {
+        console.error("Could not load profile from sessionStorage:", e);
+      }
+      
+      renderProfile();
+      
+      // Auto-generate plan if profile just saved
+      const justSaved = sessionStorage.getItem('profileJustSaved') === 'true';
+      if (justSaved && userProfile) {
+        sessionStorage.removeItem('profileJustSaved');
+        generatePlan();
+      }
+    }
+
+    // Render profile section
+    function renderProfile() {
+      const profileContainer = document.getElementById('profileInfo');
+      if (userProfile) {
+        profileContainer.innerHTML = renderProfileSummary(userProfile);
+      } else {
+        profileContainer.innerHTML = `
+          <div class="profile-summary">
+            <p style="text-align: center; color: #666;">
+              No profile found. Please <a href="input.html">create your profile</a> first.
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    // Render plan section
+    function renderPlan() {
+      const planContainer = document.getElementById('plan');
+      
+      if (currentPlan) {
+        planContainer.innerHTML = `
+          ${renderWeeklySchedule(currentPlan.weeklySchedule)}
+          ${renderDailySessions(currentPlan.dailySessions, currentPlan.weeklySchedule)}
+          ${renderProgressionPlan(currentPlan.progressionPlan)}
+          ${renderSafetyNotes(currentPlan.safetyNotes)}
+        `;
+      } else {
+        planContainer.innerHTML = `
+          <div style="text-align: center; padding: 40px; background: #f8fafc; border-radius: 12px; border: 2px solid #e2e8f0;">
+            <h3 style="color: #2b5876; margin-bottom: 16px;">No Yoga Plan Found</h3>
+            <p style="color: #666; margin-bottom: 24px;">
+              Generate your personalized yoga plan based on your profile to get started.
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    // Show loading state
+    function showLoading() {
+      document.getElementById('loading').classList.add('show');
+      document.getElementById('generateBtn').disabled = true;
+    }
+
+    // Hide loading state
+    function hideLoading() {
+      document.getElementById('loading').classList.remove('show');
+      document.getElementById('generateBtn').disabled = false;
+    }
+
+    // Show error message
+    function showError(message) {
+      const errorDiv = document.getElementById('error');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+      setTimeout(() => {
+        errorDiv.style.display = 'none';
+      }, 5000);
+    }
+
+    // Show success message
+    function showSuccess(message) {
+      const successDiv = document.getElementById('success');
+      successDiv.textContent = message;
+      successDiv.style.display = 'block';
+      setTimeout(() => {
+        successDiv.style.display = 'none';
+      }, 5000);
+    }
+
+    // Generate new yoga plan
+    async function generatePlan() {
+      if (!userProfile) {
+        showError("Please complete your profile first!");
+        return;
+      }
+
+      showLoading();
+      clearMessages();
+
+      try {
+        const response = await fetch("http://localhost:3001/api/generate-plan", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ yogaProfile: userProfile }) // Send the yogaProfile key
+        });
+
+        if (!response.ok) {
+          throw new Error(`Plan generation failed: ${response.statusText}`);
+        }
+
+        const plan = await response.json();
+        
+        currentPlan = plan;
+        renderPlan();
+        showSuccess("New personalized yoga plan generated successfully!");
+        
+      } catch (error) {
+        console.error("Error generating plan:", error);
+        showError("Failed to generate plan. Please check if the backend server is running.");
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // Clear messages
+    function clearMessages() {
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('success').style.display = 'none';
+    }
+
+    // Initialize app
+    window.addEventListener('DOMContentLoaded', () => {
+      // Highlight active sidebar link
+      document.querySelectorAll('.sidebar-yoga nav a').forEach(link => {
+        if (window.location.pathname.includes(link.getAttribute('href'))) {
+          link.classList.add('active');
+        }
+      });
+
+      // Setup event listeners
+      document.getElementById('generateBtn').addEventListener('click', generatePlan);
+      document.getElementById('editProfileBtn').addEventListener('click', () => {
+        window.location.href = "input.html";
+      });
+
+      loadUserData();
+    });
+  </script>
+</head>
+<body>
+  <aside class="sidebar-yoga">
+    <div class="sidebar-header">
+      <img src="https://img.icons8.com/color/100/yoga-pose.png" alt="Profile Image" class="profile-img">
+      <h3 class="profile-name">Yoga User</h3>
+    </div>
+    <nav>
+      <a href="index.html"><i class="fas fa-home"></i> Home</a>
+      <a href="input.html"><i class="fas fa-user-edit"></i> Input Details</a>
+      <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+      <a href="plan.html" class="active"><i class="fas fa-calendar-alt"></i> Yoga Plan</a>
+      <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+      
+      <a href="login.html"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+    </nav>
+  </aside>
+
+  <div class="main-content-container">
+    <div class="container">
+      <h2>Your Personalized Yoga Plan</h2>
+      
+      <div id="profileInfo"></div>
+      
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Generating your personalized yoga plan...</p>
+      </div>
+      
+      <div id="plan"></div>
+      
+      <div class="action-buttons">
+        <button id="generateBtn">Generate New Plan</button>
+        <button id="editProfileBtn" class="btn-secondary">Edit Profile</button>
+      </div>
+      
+      <div class="error" id="error" style="display: none;"></div>
+      <div class="success" id="success" style="display: none;"></div>
+    </div>
+  </div>
+</body>
+</html>

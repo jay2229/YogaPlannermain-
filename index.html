@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Yoga Planner - Your Path to Wellness</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2b5876;
+      --secondary-color: #4e4376;
+      --accent-color: #667eea;
+      --light-bg: #f8fafc;
+      --white: #fff;
+      --text-color: #444;
+      --light-text: #666;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(120deg, #f3e7e9 0%, #e3eeff 100%);
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* === Sidebar Styling === */
+    .sidebar-yoga {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px; 
+      height: 100vh;
+      background: linear-gradient(120deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1000;
+      padding-top: 30px;
+      box-shadow: 2px 0 8px rgba(50,50,93,0.11);
+      transition: transform 0.3s ease;
+    }
+    
+    .sidebar-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .profile-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--white);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      margin-bottom: 10px;
+    }
+    
+    .profile-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .sidebar-yoga nav {
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    .sidebar-yoga nav a {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 15px 30px;
+      border-left: 4px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .sidebar-yoga nav a:hover,
+    .sidebar-yoga nav a.active {
+      background: rgba(255,255,255,0.1);
+      border-left-color: var(--accent-color);
+    }
+    
+    .sidebar-yoga nav a i {
+      font-size: 1.2rem;
+    }
+
+    /* Main content container to prevent overlap */
+    .main-content-container {
+      margin-left: 250px; /* Same as sidebar width */
+      transition: margin-left 0.3s ease;
+      min-height: 100vh;
+    }
+
+    /* Header & Navigation */
+    header {
+      background: var(--primary-color);
+      color: var(--white);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-img {
+      width: 40px;
+      margin-right: 10px;
+      filter: invert(1);
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+    }
+    
+    nav a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 20px;
+      transition: color 0.3s;
+    }
+    
+    nav a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      background: linear-gradient(rgba(43,88,118,0.7), rgba(78,67,118,0.7)), url('https://images.unsplash.com/photo-1545389336-cf097727e1a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+      color: var(--white);
+      border-radius: 14px;
+      margin: 40px auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin: 0 0 10px;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      font-weight: 400;
+    }
+
+    .hero-buttons .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background: var(--accent-color);
+      color: var(--white);
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .hero-buttons .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Section Styling */
+    .section {
+      padding: 60px 20px;
+      text-align: center;
+      margin-bottom: 40px;
+      background: var(--light-bg);
+      border-radius: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: var(--light-text);
+      max-width: 800px;
+      margin: 0 auto 40px;
+    }
+
+    /* About Section */
+    .about-content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 40px;
+      text-align: left;
+    }
+
+    .about-content img {
+      max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .about-text {
+      flex: 1;
+    }
+    
+    /* Yoga Benefits Section */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .benefit-card {
+      background: var(--white);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+    }
+    
+    .benefit-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    
+    .benefit-card .icon {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      margin-bottom: 15px;
+    }
+
+    .benefit-card h3 {
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      margin: 0 0 10px;
+    }
+
+    /* Call to Action Section */
+    .cta {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--primary-color);
+      color: var(--white);
+      border-radius: 14px;
+      margin: 40px auto;
+    }
+    
+    .cta h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .cta .btn {
+      background: var(--accent-color);
+      width: auto;
+      min-width: 200px;
+      margin: 0 auto;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--light-text);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .logo-text {
+        font-size: 1.2rem;
+      }
+      nav a {
+        margin-left: 10px;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+      .about-content {
+        flex-direction: column;
+      }
+      .about-content img {
+        max-width: 100%;
+      }
+      /* Hide sidebar on small screens */
+      .sidebar-yoga {
+        transform: translateX(-100%);
+        width: 100%;
+        padding-top: 20px;
+      }
+      .main-content-container {
+        margin-left: 0;
+      }
+      header {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar-yoga">
+    <div class="sidebar-header">
+      <img src="https://img.icons8.com/color/100/yoga-pose.png" alt="Profile Image" class="profile-img">
+      <h3 class="profile-name">Yoga User</h3>
+    </div>
+    <nav>
+      <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+      <a href="input.html"><i class="fas fa-user-edit"></i> Input Details</a>
+      <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+      <a href="plan.html"><i class="fas fa-calendar-alt"></i> Yoga Plan</a>
+      <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+      
+      
+    </nav>
+  </aside>
+
+  <div class="main-content-container">
+    <header>
+      <div class="logo-container">
+        <img src="https://img.icons8.com/ios-filled/100/2b5876/yoga.png" alt="Yoga Logo" class="logo-img">
+        <a href="index.html" class="logo-text">Yoga Planner</a>
+      </div>
+      <nav>
+        <a href="#about-section">About</a>
+        <a href="#benefits-section">Benefits</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1>Your Personalized Yoga Journey Starts Here</h1>
+        <p>
+          Get custom yoga routines designed just for you, based on your goals, experience, and health.
+        </p>
+        <div class="hero-buttons">
+          <a href="signup.html" class="btn">Get Started</a>
+        </div>
+      </section>
+  
+      <section id="about-section" class="section">
+        <h2 class="section-title">About Yoga Planner</h2>
+        <div class="about-content">
+          <div class="about-text">
+            <p>
+              Yoga Planner is an intuitive web application designed to create unique and personalized yoga routines. Our platform tailors each session to your specific needs, whether you're a complete beginner or an experienced practitioner. By analyzing your goals, fitness level, and health considerations, we generate a comprehensive plan that guides you safely and effectively.
+            </p>
+            <p>
+              Our mission is to make the transformative power of yoga accessible to everyone. We believe that a consistent, mindful practice is key to a healthier, more balanced life, and we're here to provide the tools you need to build that habit.
+            </p>
+          </div>
+          <img src="https://images.unsplash.com/photo-1549444747-49f874272186?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="About Us">
+        </div>
+      </section>
+      
+      <section id="benefits-section" class="section">
+        <h2 class="section-title">Why Practice Yoga?</h2>
+        <p class="section-subtitle">
+          Yoga is more than just stretching; it's a holistic practice that connects mind, body, and spirit.
+        </p>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <i class="fas fa-heartbeat icon"></i>
+            <h3>Physical Health</h3>
+            <p>
+              Build strength, improve flexibility, and enhance balance. Yoga is a low-impact way to improve your physical well-being.
+            </p>
+          </div>
+          <div class="benefit-card">
+            <i class="fas fa-brain icon"></i>
+            <h3>Mental Clarity</h3>
+            <p>
+              Reduce stress and anxiety through mindful breathing and meditation. Yoga helps calm the nervous system and clear the mind.
+            </p>
+          </div>
+          <div class="benefit-card">
+            <i class="fas fa-bed icon"></i>
+            <h3>Better Sleep</h3>
+            <p>
+              Many poses and breathing techniques are designed to relax the body and mind, leading to deeper, more restful sleep.
+            </p>
+          </div>
+          <div class="benefit-card">
+            <i class="fas fa-hand-holding-heart icon"></i>
+            <h3>Mind-Body Connection</h3>
+            <p>
+              Develop a deeper awareness of your body's signals, fostering a greater sense of self-care and overall wellness.
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      <section class="cta">
+        <h2>Ready to Start Your Journey?</h2>
+        <a href="signup.html" class="btn">Create Your Free Plan Now</a>
+      </section>
+    </main>
+  
+    <footer>
+      <p>&copy; 2025 Yoga Planner. All rights reserved.</p>
+    </footer>
+  </div>
+
+</body>
+</html>
