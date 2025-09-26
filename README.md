@@ -52,8 +52,7 @@ YogaFlow/
 
 Clone the repository
 
-git clone https://github.com/jay2229/YogaFlow.git
-cd YogaFlow
+https://github.com/jay2229/YogaPlannermain-.git
 
 
 Install dependencies
